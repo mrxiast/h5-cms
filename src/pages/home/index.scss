@@ -1,0 +1,33 @@
+.container{
+  
+}
+.count-up{
+  display: flex;
+  justify-content:space-around ;
+  .count-item{
+    width:300px;
+    border:1px solid #eee;
+    box-shadow: 5px 5px 15px #ddd;
+    display: flex;
+    padding:20px;
+    box-sizing: border-box;
+    align-items: center;
+    
+    img{
+      height:100px;
+      width:100px;
+    }
+    .up-count{
+      text-align: center;
+
+      .count-num{
+        width:150px;
+      margin-left: 10px;
+      color:#f00;
+      font-size: 40px;
+      font-weight: 700;
+      }
+      
+    }
+  }
+}
