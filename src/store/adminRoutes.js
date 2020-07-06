@@ -1,6 +1,36 @@
 
 /* 需要权限判断的路由,本地写好了 */
 const adminRoutes = [
+
+    {
+        path: '/goods',
+        component: () => import('pages/goods-manage'),
+        name: 'goods',
+        meta: {
+            name: '产品管理',
+            icon: 'icon-order-manage'
+        },
+        children: [
+            {
+                path: 'list',
+                name: 'goods-list',
+                component: () => import('pages/goods-manage/goods-list'),
+                meta: {
+                    name: '产品列表',
+                    icon: 'icon-home'
+                }
+            },
+            {
+                path: 'classify',
+                name: 'goods-classify',
+                component: () => import('pages/goods-manage/goods-classify'),
+                meta: {
+                    name: '产品分类',
+                    icon: 'icon-product-manage'
+                }
+            }
+        ]
+    },
     {
         path: '/order',
         component: () => import('pages/order-manage'),
@@ -56,35 +86,6 @@ const adminRoutes = [
                 component: () => import('pages/order-manage/return-goods'),
                 meta: {
                     name: '退货管理',
-                    icon: 'icon-product-manage'
-                }
-            }
-        ]
-    },
-    {
-        path: '/goods',
-        component: () => import('pages/goods-manage'),
-        name: 'goods',
-        meta: {
-            name: '产品管理',
-            icon: 'icon-order-manage'
-        },
-        children: [
-            {
-                path: 'list',
-                name: 'goods-list',
-                component: () => import('pages/goods-manage/goods-list'),
-                meta: {
-                    name: '产品列表',
-                    icon: 'icon-home'
-                }
-            },
-            {
-                path: 'classify',
-                name: 'goods-classify',
-                component: () => import('pages/goods-manage/goods-classify'),
-                meta: {
-                    name: '产品分类',
                     icon: 'icon-product-manage'
                 }
             }
