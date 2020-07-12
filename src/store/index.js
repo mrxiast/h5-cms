@@ -24,81 +24,31 @@ const state = {
 const actions = {
     //permission的文件
     async FETCH_PERMISSION ({ commit, state }) {
-        //请求后台，后台给返回的路由，是登陆者用有的路由，
-        // let permissionList = await fetchPermission()
-        /*  拿到后台返回的简易数据，与前端本地写好完整，有路径的路由作对比  然后两个数组循环对比拿真实的权限路由*/
+        let data = await fetchPermission()
         let routes = adminRoutes
+        let initialRoutes = router.options.routes
 
-        //获取的路由的匹配的第一个对象，就是下面这一块
-        // {
-        //     path: '',
-        //     component: () => import('@/pages/layout/index'),
-        //     name: 'container',
-        //     redirect: 'home',
-        //     meta: {
-        //         requiresAuth: true,
-        //         name: '首页'
-        //     },
-        //     children: [
-        //         {
-        //             path: 'home',
-        //             component: () => import('@/pages/home/index'),
-        //             name: 'home',
-        //             meta: {
-        //                 name: '首页',
-        //                 icon: 'icon-home'
-        //             }
-        //         }
-        //     ]
-        // },
-        let MainContainer = DynamicRoutes.find(v => {
+        let MainContainer = initialRoutes.find(v => {
             return v.path === ''
         })
 
-        //这里的children，就是这一块
-        //children: [
-        //         {
-        //             path: 'home',
-        //             component: () => import('@/pages/home/index'),
-        //             name: 'home',
-        //             meta: {
-        //                 name: '首页',
-        //                 icon: 'icon-home'
-        //             }
-        //         }
-        //     ]
         let children = MainContainer.children
         children.push(...routes)
 
         /* 生成左侧导航菜单 */
         commit('SET_MENU', children)
-
-
-        /*
-            为所有有children的菜单路由设置第一个children为默认路由
-            主要是供面包屑用，防止点击面包屑后进入某个路由下的 '' 路由,比如/manage/
-            而我们的路由是
-            [
-                /manage/menu1,
-                /manage/menu2
-            ]
-        */
         setDefaultRoute([MainContainer])
-
-
-
-
-
         //下面是生成跳转用的路由，上面是生成左侧菜单的路由
 
         /*  初始路由 只有一个login*/
-        let initialRoutes = router.options.routes
+        
 
         /*  动态添加路由 */
-        router.addRoutes(DynamicRoutes)
+        router.addRoutes(initialRoutes)
 
         /* 完整的路由表 */
-        commit('SET_PERMISSION', [...initialRoutes, ...DynamicRoutes])
+        commit('SET_PERMISSION', [...initialRoutes])
+        // console.log(this.$store.state.permissionList,'permissionList')
     }
 }
 const mutations = {
@@ -141,39 +91,6 @@ const mutations = {
     }
 
 }
-
-/* 准备动态添加的路由 */
-const DynamicRoutes = [
-    {
-        path: '',
-        component: () => import('@/pages/layout/index'),
-        name: 'container',
-        redirect: '/home',
-        meta: {
-            requiresAuth: true,
-            name: '首页'
-        },
-        children: [
-            {
-                path: '/home',
-                component: () => import('@/pages/home/index'),
-                name: 'home',
-                meta: {
-                    name: '首页',
-                    icon: 'icon-home'
-                }
-            }
-        ]
-    },
-    {
-        path: '/403',
-        component: () => import('@/pages/errorPage/403')
-    },
-    {
-        path: '*',
-        component: () => import('@/pages/errorPage/404')
-    }
-]
 
 Vue.use(Vuex)
 

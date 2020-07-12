@@ -5,7 +5,7 @@ import { setStore, getStore } from '@/utils/storage'
 const baseURL = process.env.BASE_URL
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 export const service = axios.create({
-    // "baseURL": baseURL,
+    "baseURL": baseURL,
     "timeout": 60000
 });
 

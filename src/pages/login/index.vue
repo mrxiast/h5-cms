@@ -32,6 +32,8 @@
 <script>
 import encrypt from "@/utils/encrypt";
 import { login } from "./api";
+import { setStore, getStore } from '@/utils/storage'
+
 export default {
   data() {
     return {
@@ -47,22 +49,20 @@ export default {
   },
   methods: {
     async subLogin() {
-      this.$store.commit("LOGIN_IN", "123");
-      this.$store.dispatch("FETCH_PERMISSION");
-      this.$router.replace("/");
-      // try {
-      //   let params = JSON.parse(JSON.stringify(this.subForm));
-      //   params.password = encrypt.Encrypt(params.password);
-      //   let data = await login(params);
-      //   if (data.code === 200) {
-      //     let token = data.data.token;
-      //     this.$store.commit("LOGIN_IN", token);
-      //     this.$message.success("登陆成功");
-      //     this.$router.replace("/");
-      //   }
-      // } catch (e) {
-      //   console.log(e);
-      // }
+      try {
+        let params = JSON.parse(JSON.stringify(this.subForm));
+        // params.password = encrypt.Encrypt(params.password);
+        let data = await login(params);
+        if (data.code === 200) {
+          let token = data.token;
+          setStore('Authorization',token)
+          this.$store.commit("LOGIN_IN", token);
+          this.$message.success("登陆成功");
+          this.$router.push("/home");
+        }
+      } catch (e) {
+        console.log(e);
+      }
     },
     clickLogin() {
       this.$refs["loginForm"].validate(valid => {

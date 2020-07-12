@@ -53,6 +53,7 @@
 </template>
 
 <script>
+import {getUserApi} from './api.js'
 import ICountUp from "vue-countup-v2";
 export default {
   components: {
@@ -74,8 +75,14 @@ export default {
   },
   mounted() {
     this.initEchart();
+    this.getUser()
   },
   methods: {
+    getUser(){
+      getUserApi().then(res=>{
+        console.log(res,'resssssss')
+      })
+    },
     onReady(instance, CountUp) {
       // const that = this;
       // instance.update(that.endVal + 100);

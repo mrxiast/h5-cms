@@ -23,7 +23,7 @@
     "js-cookie": "^2.2.1",
     "vue": "^2.5.2",
     "vue-countup-v2": "^4.0.0",
-    "vue-router": "^3.0.0",
+    "vue-router": "^3.3.4",
     "vuex": "^3.0.1",
     "xlsx": "^0.16.3"
   },

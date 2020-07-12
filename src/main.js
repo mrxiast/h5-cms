@@ -37,16 +37,16 @@ router.beforeEach((to, from, next) => {
             next()
         } else {
             next({ path: '/login' })
-
         }
-
     } else {
+        
         if (!store.state.permissionList) {
-
+            console.log(to.path)
             store.dispatch('FETCH_PERMISSION').then(() => {
                 next({ path: to.path })
             })
         } else {
+            console.log('9999')
             if (to.path !== '/login') {
                 next()
             } else {
