@@ -7,6 +7,13 @@ import Router from 'vue-router'
 //     return originalPush.call(this, location).catch(err => err)
 // }
 Vue.use(Router)
+// 路由配置
+const RouterConfig = {
+    // mode: 'history',暂时修改成hash
+    "mode": 'hash'
+};
+
+export const router = new Router(RouterConfig);
 
 
 /* 初始路由 */
@@ -16,7 +23,7 @@ export default new Router({
             path: '',
             component: () => import('@/pages/layout/index'),
             name: 'container',
-            redirect:'/home',
+            redirect: '/home',
             meta: {
                 requiresAuth: true
             },

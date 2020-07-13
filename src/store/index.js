@@ -6,11 +6,12 @@ import { fetchPermission } from './api'
 
 
 const state = {
-    get UserToken () {
-        return localStorage.getItem('token')
+    get UserToken() {
+        console.log('778899')
+        return localStorage.getItem('Authorization')
     },
-    set UserToken (value) {
-        localStorage.setItem('token', value)
+    set UserToken(value) {
+        localStorage.setItem('Authorization', value)
     },
     /* 导航菜单是否折叠 */
     isSidebarNavCollapse: false,
@@ -23,8 +24,8 @@ const state = {
 
 const actions = {
     //permission的文件
-    async FETCH_PERMISSION ({ commit, state }) {
-        let data = await fetchPermission()
+    async FETCH_PERMISSION({ commit, state }) {
+        // let data = await fetchPermission()
         let routes = adminRoutes
         let initialRoutes = router.options.routes
 
@@ -41,7 +42,7 @@ const actions = {
         //下面是生成跳转用的路由，上面是生成左侧菜单的路由
 
         /*  初始路由 只有一个login*/
-        
+
 
         /*  动态添加路由 */
         router.addRoutes(initialRoutes)
@@ -53,40 +54,40 @@ const actions = {
 }
 const mutations = {
     //登录 设置roken
-    LOGIN_IN (state, token) {
+    LOGIN_IN(state, token) {
         state.UserToken = token
     },
     //登出 清除token
-    LOGIN_OUT (state) {
+    LOGIN_OUT(state) {
         state.UserToken = ''
     },
     // 面包屑 的收起与展开
-    toggleNavCollapse (state) {
+    toggleNavCollapse(state) {
         state.isSidebarNavCollapse = !state.isSidebarNavCollapse
     },
     //设置面包屑导航列表
-    setCrumbList (state, list) {
+    setCrumbList(state, list) {
         state.crumbList = list
     },
 
     //登录时设置 permission文件
-    SET_PERMISSION (state, routes) {
+    SET_PERMISSION(state, routes) {
         state.permissionList = routes
     },
     //登出时清空
-    CLEAR_PERMISSION (state) {
+    CLEAR_PERMISSION(state) {
         state.permissionList = null
     },
     //登录时 设置左侧菜单
-    SET_MENU (state, menu) {
+    SET_MENU(state, menu) {
         state.sidebarMenu = menu
     },
     //登出时 清空左侧菜单
-    CLEAR_MENU (state) {
+    CLEAR_MENU(state) {
         state.sidebarMenu = []
     },
     //设置当前的路由
-    SET_CURRENT_MENU (state, currentMenu) {
+    SET_CURRENT_MENU(state, currentMenu) {
         state.currentMenu = currentMenu
     }
 
@@ -102,7 +103,7 @@ export default new Vuex.Store({
 
 
 // //路由拼接的函数
-function recursionRouter (userRouter = [], allRouter = []) {
+function recursionRouter(userRouter = [], allRouter = []) {
     var realRoutes = []
     allRouter.forEach((v, i) => {
         userRouter.forEach((item, index) => {
@@ -123,7 +124,7 @@ function recursionRouter (userRouter = [], allRouter = []) {
  *
  * 递归为所有有子路由的路由设置第一个children.path为默认路由
  */
-function setDefaultRoute (routes) {
+function setDefaultRoute(routes) {
     routes.forEach((v, i) => {
         if (v.children && v.children.length > 0) {
             v.redirect = { name: v.children[0].name }

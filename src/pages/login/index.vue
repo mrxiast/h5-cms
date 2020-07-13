@@ -32,7 +32,7 @@
 <script>
 import encrypt from "@/utils/encrypt";
 import { login } from "./api";
-import { setStore, getStore } from '@/utils/storage'
+import { setStore, getStore } from "@/utils/storage";
 
 export default {
   data() {
@@ -55,7 +55,7 @@ export default {
         let data = await login(params);
         if (data.code === 200) {
           let token = data.token;
-          setStore('Authorization',token)
+          setStore("Authorization", token);
           this.$store.commit("LOGIN_IN", token);
           this.$message.success("登陆成功");
           this.$router.push("/home");
