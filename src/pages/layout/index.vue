@@ -4,7 +4,7 @@
     <div class="main-container">
       <TopAside />
       <el-card class="elCardMargin">
-        <router-view class="content"></router-view>
+        <router-view></router-view>
       </el-card>
     </div>
   </div>

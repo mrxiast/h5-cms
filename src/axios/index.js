@@ -2,7 +2,7 @@ import axios from 'axios';
 import Cookies from "js-cookie";
 import { Message } from 'element-ui';
 import { setStore, getStore } from '@/utils/storage'
-import { router } from '../router/index';
+import router from '@/router/index';
 const baseURL = process.env.BASE_URL
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 export const service = axios.create({
@@ -32,9 +32,6 @@ service.interceptors.response.use(response => {
             Cookies.set('userInfo', '');
             setStore('Authorization', '');
             router.push('/login')
-
-            console.log(this, '456')
-
             break;
         case 403:
             // 没有权限

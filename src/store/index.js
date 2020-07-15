@@ -30,7 +30,7 @@ const actions = {
         let initialRoutes = router.options.routes
 
         let MainContainer = initialRoutes.find(v => {
-            return v.path === ''
+            return v.path === '/'
         })
 
         let children = MainContainer.children
@@ -49,7 +49,7 @@ const actions = {
 
         /* 完整的路由表 */
         commit('SET_PERMISSION', [...initialRoutes])
-        // console.log(this.$store.state.permissionList,'permissionList')
+        console.log(initialRoutes, 'permissionList')
     }
 }
 const mutations = {

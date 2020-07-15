@@ -6,7 +6,7 @@
 
         <div class="up-count">
           <div class="count-num">
-            <ICountUp :delay="startPeo" :endVal="endPeo" :options="options" @ready="onReady" />人
+            <ICountUp :delay="startPeo" :endVal="countEndPeo" :options="options" @ready="onReady" />人
           </div>
 
           <div>平台总用户</div>
@@ -17,7 +17,7 @@
 
         <div class="up-count">
           <div class="count-num">
-            <ICountUp :delay="startPeo" :endVal="endPeo" :options="options" @ready="onReady" />人
+            <ICountUp :delay="startPeo" :endVal="ordersCount" :options="options" @ready="onReady" />人
           </div>
 
           <div>今日增长用户</div>
@@ -39,7 +39,7 @@
 
         <div class="up-count">
           <div class="count-num">
-            <ICountUp :delay="startPeo" :endVal="endPeo" :options="options" @ready="onReady" />单
+            <ICountUp :delay="startPeo" :endVal="ordersCount" :options="options" @ready="onReady" />单
           </div>
 
           <div>今日订单</div>
@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import { getUserApi } from "./api.js";
+import { getUserApi, getOrdersApi } from "./api.js";
 import ICountUp from "vue-countup-v2";
 export default {
   components: {
@@ -62,7 +62,9 @@ export default {
   data() {
     return {
       startPeo: 0,
-      endPeo: 120,
+      countEndPeo: 0,
+      endPeo: 2600,
+      ordersCount: 0,
       options: {
         useEasing: true,
         useGrouping: true,
@@ -76,11 +78,21 @@ export default {
   mounted() {
     this.initEchart();
     this.getUser();
+    this.getOrders();
   },
   methods: {
     getUser() {
       getUserApi().then(res => {
-        console.log(res, "resssssss");
+        if (res.code === 200) {
+          this.countEndPeo = res.result;
+        }
+      });
+    },
+    getOrders() {
+      getOrdersApi().then(res => {
+        if (res.code === 200) {
+          this.ordersCount = res.result;
+        }
       });
     },
     onReady(instance, CountUp) {

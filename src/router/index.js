@@ -8,19 +8,13 @@ import Router from 'vue-router'
 // }
 Vue.use(Router)
 // 路由配置
-const RouterConfig = {
-    // mode: 'history',暂时修改成hash
-    "mode": 'hash'
-};
-
-export const router = new Router(RouterConfig);
 
 
 /* 初始路由 */
 export default new Router({
     routes: [
         {
-            path: '',
+            path: '/',
             component: () => import('@/pages/layout/index'),
             name: 'container',
             redirect: '/home',
@@ -29,7 +23,7 @@ export default new Router({
             },
             children: [
                 {
-                    path: '/home',
+                    path: 'home',
                     component: () => import('@/pages/home/index'),
                     name: 'home',
                     meta: {
