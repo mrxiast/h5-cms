@@ -1,7 +1,7 @@
 
 
 <style lang="scss" scoped>
-@import './index.scss';
+@import "./index.scss";
 </style>
 
 <template>
@@ -39,49 +39,48 @@
 </template>
 
 <script>
-import { register } from './api.js'
-import encrypt from '@/utils/encrypt'
+import { register } from "./api.js";
+import encrypt from "@/utils/encrypt";
 export default {
   data() {
     return {
       subForm: {},
       rules: {
-        userName: [{ required: true, message: '请输入账号', trigger: 'blur' }],
-        password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+        userName: [{ required: true, message: "请输入账号", trigger: "blur" }],
+        password: [{ required: true, message: "请输入密码", trigger: "blur" }],
         idCard: [
-          { required: true, message: '请输入身份证号', trigger: 'blur' }
+          { required: true, message: "请输入身份证号", trigger: "blur" }
         ],
-        email: [{ required: true, message: '请输入邮箱', trigger: 'blur' }]
+        email: [{ required: true, message: "请输入邮箱", trigger: "blur" }]
       }
-    }
+    };
   },
   methods: {
     sub() {
-      let that = this
-      let reg = /^\S*$/
-      this.$refs['subForm'].validate(valid => {
-        let reg = /^\S*$/
+      let that = this;
+      let reg = /^\S*$/;
+      this.$refs["subForm"].validate(valid => {
+        let reg = /^\S*$/;
         for (let item in this.subForm) {
           if (!reg.test(this.subForm[item])) {
-            this.$message.error('输入内容包含空格，请出新输入!')
-            return false
+            this.$message.error("输入内容包含空格，请出新输入!");
+            return false;
           }
         }
-        let data = JSON.parse(JSON.stringify(this.subForm))
-        data.password = encrypt.Encrypt(data.password)
-        console.log(data, '00123456')
+        let data = JSON.parse(JSON.stringify(this.subForm));
+        data.password = encrypt.Encrypt(data.password);
         register(data).then(res => {
           if (res.code === 200) {
-            this.$message.success('注册成功')
+            this.$message.success("注册成功");
             setTimeout(function() {
-              that.$router.replace('/login')
-            }, 1000)
+              that.$router.replace("/login");
+            }, 1000);
           } else {
-            this.$message.error(res.message)
+            this.$message.error(res.message);
           }
-        })
-      })
+        });
+      });
     }
   }
-}
+};
 </script>

@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { add, getList, del, changeItem } from "./api";
+import { getListApi } from "./api";
 export default {
   data() {
     return {
@@ -87,25 +87,28 @@ export default {
       },
       dialogVisible: false,
       tableData: [],
-      pageSize: 10,
-      pageNum: 1,
+      searchInfo: {
+        pageSize: 10,
+        pageNum: 1,
+        type: 0
+      },
+
       total: 0,
       type: 1 //1是添加2是编辑
     };
   },
   mounted() {
-    // this.init();
+    this.init();
   },
   methods: {
     init() {
-      let data = {
-        pageSize: this.pageSize,
-        pageNum: this.pageNum
-      };
-      getList(data).then(res => {
+      this.getList();
+    },
+    getList() {
+      getListApi(this.searchInfo).then(res => {
         if (res.code === 200) {
-          this.tableData = res.data;
-          this.total = res.total;
+          this.tableData = res.result.list;
+          this.total = res.result.total;
         }
       });
     },
@@ -116,7 +119,6 @@ export default {
       this.$refs["addForm"].resetFields();
     },
     handleClick(row) {
-      console.log(row);
       this.type = 2;
       this.addForm = JSON.parse(JSON.stringify(row));
       this.dialogVisible = true;
@@ -126,7 +128,6 @@ export default {
     },
     isDel() {
       del({ _id: this.delId }).then(res => {
-        console.log(res, "res");
         if (res.code === 200) {
           this.$message.success("删除成功");
           this.showDel = false;

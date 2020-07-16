@@ -7,7 +7,6 @@ import { fetchPermission } from './api'
 
 const state = {
     get UserToken() {
-        console.log('778899')
         return localStorage.getItem('Authorization')
     },
     set UserToken(value) {
@@ -49,7 +48,6 @@ const actions = {
 
         /* 完整的路由表 */
         commit('SET_PERMISSION', [...initialRoutes])
-        console.log(initialRoutes, 'permissionList')
     }
 }
 const mutations = {

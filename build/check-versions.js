@@ -4,7 +4,7 @@ const semver = require('semver')//检查版本
 const packageConfig = require('../package.json')
 const shell = require('shelljs')
 
-function exec (cmd) {
+function exec(cmd) {
   //返回通过child_process模块的新建子进程，执行 Unix 系统命令后转成没有空格的字符串
   return require('child_process').execSync(cmd).toString().trim()
 }
@@ -41,7 +41,6 @@ module.exports = function () {
   }
 
   if (warnings.length) {
-    console.log('')
     console.log(chalk.yellow('To use this template, you must update following to modules:'))
     console.log()
 

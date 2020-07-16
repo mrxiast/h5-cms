@@ -17,7 +17,7 @@
 
         <div class="up-count">
           <div class="count-num">
-            <ICountUp :delay="startPeo" :endVal="ordersCount" :options="options" @ready="onReady" />人
+            <ICountUp :delay="startPeo" :endVal="endPeo" :options="options" @ready="onReady" />人
           </div>
 
           <div>今日增长用户</div>
@@ -28,7 +28,7 @@
 
         <div class="up-count">
           <div class="count-num">
-            <ICountUp :delay="startPeo" :endVal="endPeo" :options="options" @ready="onReady" />单
+            <ICountUp :delay="startPeo" :endVal="ordersCount" :options="options" @ready="onReady" />单
           </div>
 
           <div>平台总订单</div>
@@ -39,7 +39,7 @@
 
         <div class="up-count">
           <div class="count-num">
-            <ICountUp :delay="startPeo" :endVal="ordersCount" :options="options" @ready="onReady" />单
+            <ICountUp :delay="startPeo" :endVal="endPeo" :options="options" @ready="onReady" />单
           </div>
 
           <div>今日订单</div>
@@ -128,7 +128,6 @@ export default {
         valueBase1 <= 0 && (valueBase1 = Math.random() * 100);
         data1.push([dayStr, valueBase1]);
       }
-      console.log(data);
       myChart.setOption({
         title: {
           text: "每日统计图",
