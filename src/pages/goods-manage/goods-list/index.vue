@@ -2,15 +2,31 @@
   <div>
     <el-card>产品列表</el-card>
     <el-card>
+      <div>
+        <el-button @click="showAddModal" type="primary">添加商品</el-button>
+      </div>
       <el-table :data="tableData" border style="width: 100%;margin-top:10px;">
+        <el-table-column type="index" width="50" align="center"></el-table-column>
         <el-table-column prop="name" label="商品名称" align="center"></el-table-column>
-        <el-table-column prop="inPice" label="商品进价" align="center"></el-table-column>
-        <el-table-column prop="salePice" label="商品卖价" align="center"></el-table-column>
-        <el-table-column prop="type" label="商品类型" align="center"></el-table-column>
+        <el-table-column label="商品图片" align="center">
+          <template slot-scope="scope">
+            <div class="img-box demo-image__preview">
+              <el-image
+                class="table-img"
+                :src="scope.row.picture_url"
+                :preview-src-list="scope.row.pictureList"
+              ></el-image>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column prop="content" label="商品简介" align="center"></el-table-column>
+        <el-table-column prop="price" label="商品原价" align="center"></el-table-column>
+        <el-table-column prop="new_price" label="商品现价" align="center"></el-table-column>
+        <el-table-column prop="type" label="商品类型" align="center" :formatter="filterType"></el-table-column>
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
-            <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
-            <el-button @click="deleItem(scope.row)" type="text" size="small">删除</el-button>
+            <el-button @click="handleClick(scope.row)" type="primary" size="small">编辑</el-button>
+            <el-button @click="deleItem(scope.row)" type="danger" size="small">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -22,14 +38,20 @@
           label-width="100px"
           class="demo-ruleForm"
         >
+          <el-form-item label="商品类型" prop="name">
+            <el-input v-model="addForm.name"></el-input>
+          </el-form-item>
           <el-form-item label="商品名称" prop="name">
             <el-input v-model="addForm.name"></el-input>
           </el-form-item>
-          <el-form-item label="商品进价" prop="inPice">
-            <el-input v-model="addForm.inPice"></el-input>
+          <el-form-item label="商品图片" prop="name">
+            <el-input v-model="addForm.name"></el-input>
           </el-form-item>
-          <el-form-item label="商品卖价" prop="salePice">
-            <el-input v-model="addForm.salePice"></el-input>
+          <el-form-item label="商品原价" prop="inPice">
+            <el-input v-model="addForm.price"></el-input>
+          </el-form-item>
+          <el-form-item label="商品现价" prop="salePice">
+            <el-input v-model="addForm.new_price"></el-input>
           </el-form-item>
           <el-form-item label="商品类型" prop="type">
             <el-input v-model="addForm.type"></el-input>
@@ -69,8 +91,8 @@ export default {
       showDel: false,
       addForm: {
         name: "",
-        age: 0,
-        sex: ""
+        new_price: "",
+        price: ""
       },
       rules: {
         name: [
@@ -104,19 +126,53 @@ export default {
     init() {
       this.getList();
     },
+    //获取默认列表
     getList() {
       getListApi(this.searchInfo).then(res => {
         if (res.code === 200) {
           this.tableData = res.result.list;
+          for (let i = 0; i < this.tableData.length; i++) {
+            let pictureList = [];
+            pictureList.push(this.tableData[i].picture_url);
+            this.$set(this.tableData[i], "pictureList", pictureList);
+          }
           this.total = res.result.total;
         }
       });
     },
-    addOneShop() {
+    //显示类型
+    filterType(row, column) {
+      let typeValue = "";
+      switch (row.type) {
+        case 1:
+          typeValue = "电子产品";
+          break;
+        case 2:
+          typeValue = "时尚衣装";
+          break;
+        case 3:
+          typeValue = "精美包包";
+          break;
+        case 4:
+          typeValue = "轻松跑鞋";
+          break;
+        case 5:
+          typeValue = "奢侈饰品";
+          break;
+        case 6:
+          typeValue = "廉价文具";
+          break;
+        default:
+          typeValue = "未知";
+          break;
+      }
+      return typeValue;
+    },
+    showAddModal() {
       this.type = 1;
       this.dialogVisible = true;
       this.addForm = {};
-      this.$refs["addForm"].resetFields();
+      // this.$refs["addForm"].resetFields();
     },
     handleClick(row) {
       this.type = 2;
@@ -161,8 +217,8 @@ export default {
       });
     },
     handleCurrentChange(e) {
-      this.pageNum = e;
-      this.init();
+      this.searchInfo.pageNum = e;
+      this.getList();
     }
   }
 };
